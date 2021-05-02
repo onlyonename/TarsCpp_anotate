@@ -51,6 +51,7 @@ public:
      * @param result
      * @return bool
      */
+    ///注册管理命令
     bool notify(const string& command, const string& params, CurrentPtr current, string& result);
 
     /**

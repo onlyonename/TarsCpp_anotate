@@ -48,7 +48,7 @@ void BaseNotify::addAdminCommandNormal(const string& command, TAdminFunc func)
 
 bool BaseNotify::notify(const string& cmd, const string& params, CurrentPtr current, string& result)
 {
-    TC_LockT<TC_ThreadRecMutex> lock(*this);
+    TC_LockT<TC_ThreadRecMutex> lock(*this);	///tars里经常有这种设计，把构造函数中，用子类作参数构造父类
 
     map<string, TAdminFunc>::iterator it;
 

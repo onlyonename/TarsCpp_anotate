@@ -165,7 +165,7 @@ protected:
      * 是否已经上锁
      * Is it locked or not
      */
-    mutable bool _acquired;
+    mutable bool _acquired;	///加一个变量提供判断依据,可以有效防止死锁
 };
 
 /**
