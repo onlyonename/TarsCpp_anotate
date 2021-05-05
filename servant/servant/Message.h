@@ -185,7 +185,7 @@ struct ReqMessage : public TC_HandleBase
         proxy          = NULL;
         pObjectProxy   = NULL;
 
-	    response       = std::make_shared<ResponsePacket>();
+	    response       = std::make_shared<ResponsePacket>();	///回包内容也放在这
 	    sReqData       = std::make_shared<TC_NetWorkBuffer::Buffer>();
         pMonitor       = NULL;
         bMonitorFin    = false;

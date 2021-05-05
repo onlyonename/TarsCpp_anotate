@@ -219,7 +219,7 @@ template<typename T>
 class PhoneixLifetime
 {
 public:
-    static void deadReference()
+    static void deadReference()	///可以重生，其实原因是调用此函数时，没有抛出异常，导致可以继续创建对象。
     {
         _bDestroyedOnce = true;
     }
@@ -278,10 +278,10 @@ public:
         static std::mutex __mutex_singleton;
 
         auto sin= __pInstance.load();
-        if ( !sin ){
+        if ( !sin ){	
             std::lock_guard<std::mutex> myLock(__mutex_singleton);
             sin= __pInstance.load();
-            if( !sin ){
+            if( !sin ){	///double check
                 if(__destroyed)
                 {
                     LifetimePolicy<T>::deadReference();

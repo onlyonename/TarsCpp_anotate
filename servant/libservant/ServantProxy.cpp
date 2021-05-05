@@ -262,11 +262,13 @@ ServantProxy::ServantProxy(Communicator * pCommunicator, ObjectProxy ** ppObject
 , _minTimeout(100)
 {
     _objectProxyOwn.reset(ppObjectProxy);
+
+	///构造ServantProxy时,EndpointManagerThread会同时构造
     _endpointInfo.reset(new EndpointManagerThread(pCommunicator, (*_objectProxy)->name()));
 
     for (size_t i = 0; i < _objectProxyNum; ++i)
     {
-        (*(_objectProxy + i))->setServantProxy(this);
+        (*(_objectProxy + i))->setServantProxy(this);	///构造ServantProxy时，ObjectProxy和Communicator已经构造完毕
     }
 
     _minTimeout = pCommunicator->getMinTimeout();
@@ -298,7 +300,8 @@ string ServantProxy::tars_name() const
     return "NULL";
 }
 
-string ServantProxy::tars_full_name() const
+
+string ServantProxy::tars_full_name() const	
 {
     if (_objectProxyNum >= 1 && (*_objectProxy != NULL))
     {
@@ -329,7 +332,20 @@ TC_Endpoint ServantProxy::tars_invoke_endpoint()
 
 void ServantProxy::tars_set_proxy(ServantProxy::SERVANT_PROXY type, const TC_Endpoint &ep, const string &user, const string &pass)
 {
-    switch (type)
+	/* orc
+	HTTP代理
+	能够代理客户机的HTTP访问，主要是代理浏览器访问网页，它的端口一般为80、8080、3128等；
+	
+	SOCKS代理
+	SOCKS代理与其他类型的代理不同，它只是简单地传递数据包，而并不关心是何种应用协议，既可以是HTTP请求，所以SOCKS代理服务器比其他类型的代理服务器速度要快得多。
+	
+	SOCKS代理又分为SOCKS4和SOCKS5
+	
+	二者不同的是SOCKS4代理只支持TCP协议（即传输控制协议），而SOCKS5代理则既支持TCP协议又支持UDP协议（即用户数据包协议），还支持各种身份验证机制、服务器端域名解析等。
+	
+	SOCK4能做到的SOCKS5都可得到，但SOCKS5能够做到的SOCK4则不一定能做到，比如我们常用的聊天工具QQ在使用代理时就要求用SOCKS5代理，因为它需要使用UDP协议来传输数据
+	*/
+	switch (type)
     {
         case PROXY_SOCK4:
             _proxyPointer.reset(new ProxySock4(ep));

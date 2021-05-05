@@ -49,6 +49,7 @@ ObjectProxy * ObjectProxyFactory::getObjectProxy(const string& sObjectProxyName,
         return it->second;
     }
 
+	///ObjectProxy和_communicatorEpoll 一一对应
     ObjectProxy * pObjectProxy = new ObjectProxy(_communicatorEpoll, sObjectProxyName,setName);
 
     _objectProxys[tmpObjName] = pObjectProxy;

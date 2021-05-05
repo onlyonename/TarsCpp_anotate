@@ -140,7 +140,7 @@ shared_ptr<TC_OpenSSL> Communicator::newClientSSL(const string &objName)
 
 #endif
 
-void Communicator::setProperty(TC_Config& conf, const string& domain/* = CONFIG_ROOT_PATH*/)
+void Communicator::setProperty(TC_Config& conf, const string& domain/* = CONFIG_ROOT_PATH*/)	///CONFIG_ROOT_PATH默认值为client配置
 {
     TC_LockT<TC_ThreadRecMutex> lock(*this);
 
@@ -267,7 +267,7 @@ void Communicator::initialize()
     _servantProxyFactory = new ServantProxyFactory(this);
 
     //网络线程
-    _clientThreadNum = TC_Common::strto<size_t>(getProperty("netthread", "1"));
+    _clientThreadNum = TC_Common::strto<size_t>(getProperty("netthread", "1"));	///默认情况，一个服务，只会有一个用于客户端的网络线程
 
     if (0 == _clientThreadNum)
     {
@@ -291,7 +291,7 @@ void Communicator::initialize()
         _asyncThreadNum = MAX_CLIENT_ASYNCTHREAD_NUM;
     }
 
-    bool merge = TC_Common::strto<bool>(getProperty("mergenetasync", "0"));
+    bool merge = TC_Common::strto<bool>(getProperty("mergenetasync", "0"));	///合并网络线程和回调线程
 
     //异步队列的大小
     size_t iAsyncQueueCap = TC_Common::strto<size_t>(getProperty("asyncqueuecap", "100000"));
@@ -302,7 +302,7 @@ void Communicator::initialize()
 
 	//第一个通信器才去启动回调线程
 	for (size_t i = 0; i < _asyncThreadNum; ++i) {
-		_asyncThread.push_back(new AsyncProcThread(iAsyncQueueCap, merge));
+		_asyncThread.push_back(new AsyncProcThread(iAsyncQueueCap, merge));	///如果不合并，这时会启动异步网络线程
 	}
 
     //stat总是有对象, 保证getStat返回的对象总是有效
@@ -310,7 +310,7 @@ void Communicator::initialize()
 
     for (size_t i = 0; i < _clientThreadNum; ++i)
     {
-        _communicatorEpoll[i] = new CommunicatorEpoll(this, i);
+        _communicatorEpoll[i] = new CommunicatorEpoll(this, i);	///CommunicatorEpoll即为客户端的网络线程
         _communicatorEpoll[i]->start();
     }
 

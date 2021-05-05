@@ -73,10 +73,10 @@ public:
      */
     void decRef()
     {
-        if((--_atomic) == 0 && !_bNoDelete)
+        if((--_atomic) == 0 && !_bNoDelete)	///_bNoDelete默认是false，会触发自我删除
         {
             _bNoDelete = true;
-            delete this;
+            delete this;		///注意这里，是删除自己。delete this这种语法，很少见
         }
     }
 
@@ -130,7 +130,7 @@ protected:
      * Count
      * 计数
      */
-    std::atomic<int>	  _atomic;
+    std::atomic<int>	  _atomic;	///引用计数
 
     /**
      * Determine whether to be deleted automatically or not

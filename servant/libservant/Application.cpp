@@ -903,7 +903,7 @@ void Application::main(const string &config)
 
 void Application::parseConfig(const string &config)
 {
-    _conf.parseString(config);
+    _conf.parseString(config);	///tars将配置文件按字符串形式读出
 
     onParseConfig(_conf);
 }

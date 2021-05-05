@@ -83,7 +83,7 @@ private:
     /**
      * 保存已创建的objectproxy
      */
-    map<string,ObjectProxy*>    _objectProxys;
+    map<string,ObjectProxy*>    _objectProxys;	///key为obj
 
     /**
      * 保存已经创建的obj 取的时候可以不用加锁

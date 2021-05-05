@@ -118,8 +118,8 @@ public:
 
     struct DomainPath
     {
-        vector<string>  _domains;
-        string          _param;
+        vector<string>  _domains;	///设path为/a/b/c<d>，则_domains包含a,b,c
+        string          _param;		///设path为/a/b/c<d>，则_param为d
     };
 
     /**
@@ -330,7 +330,7 @@ protected:
     * 域名称
     * Domain Name
     */
-    string                  _name;
+    string                  _name;		///即xml配置文件中具有开始和结束标记的一段空间
 
     /**
     * name/value对，配置项的名称和配置项的值
@@ -342,7 +342,7 @@ protected:
      * key也就是配置项的插入顺序
      * key, the insertion order of configuration items
      */
-    vector<string>          _key;
+    vector<string>          _key;	///所有配置项的名字，不包含域名
 
     /**
     * 子域

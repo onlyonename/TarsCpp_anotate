@@ -39,6 +39,7 @@ ServantPrx::element_type* ServantProxyFactory::getServantProxy(const string& nam
 	if(it != _servantProxy.end())
 		return it->second.get();
 
+	///创建一个新的ServantProxy时，会先创建对应的ObjectProxy
     ObjectProxy ** ppObjectProxy = new ObjectProxy * [_comm->getClientThreadNum()];
     assert(ppObjectProxy != NULL);
 
@@ -57,7 +58,7 @@ ServantPrx::element_type* ServantProxyFactory::getServantProxy(const string& nam
     sp->tars_async_timeout(asyncTimeout);
     sp->tars_connect_timeout(conTimeout);
 
-	_servantProxy[tmpObjName] = sp;
+	_servantProxy[tmpObjName] = sp;	///ServantProxy也是根据objname来查找
 
 	return sp.get();
 }

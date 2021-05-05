@@ -62,7 +62,9 @@ TC_ConfigDomain& TC_ConfigDomain::operator=(const TC_ConfigDomain &tcd)
 
 TC_ConfigDomain::DomainPath TC_ConfigDomain::parseDomainName(const string& path, bool bWithParam)
 {
-    TC_ConfigDomain::DomainPath dp;
+	///path格式为/a/b/c<d>
+
+	TC_ConfigDomain::DomainPath dp;
 
     if(bWithParam)
     {
@@ -89,7 +91,7 @@ TC_ConfigDomain::DomainPath TC_ConfigDomain::parseDomainName(const string& path,
     else
     {
 //    	if(path.length() <= 1 || path[0] != TC_CONFIG_DOMAIN_SEP)
-        if(path[0] != TC_CONFIG_DOMAIN_SEP)
+        if(path[0] != TC_CONFIG_DOMAIN_SEP)	/// SEP即separator
     	{
     		throw TC_Config_Exception("[TC_Config::parseDomainName] : param path '" + path + "' must start with '/'!" );
     	}
@@ -213,7 +215,7 @@ void TC_ConfigDomain::setParamValue(const string &line)
         return;
     }
 
-    _line.push_back(line);
+    _line.push_back(line);	///配置文件每行的数据，不包含域的开始行和结束行
 
     string::size_type pos = 0;
     for(; pos <= line.length() - 1; pos++)
@@ -252,7 +254,7 @@ string TC_ConfigDomain::parse(const string& s)
 
     string param;
     string::size_type pos = 0;
-    for(; pos <= s.length() - 1; pos++)
+    for(; pos <= s.length() - 1; pos++)		///处理转义和换行
     {
         char c;
         if(s[pos] == '\\' && pos < s.length() - 1)
@@ -454,8 +456,8 @@ void TC_Config::parse(istream &is)
 {
     _root.destroy();
 
-    stack<TC_ConfigDomain*> stkTcCnfDomain;
-    stkTcCnfDomain.push(&_root);
+    stack<TC_ConfigDomain*> stkTcCnfDomain;	///对于对称的文本结构，都可以考虑用栈来进行分析。
+    stkTcCnfDomain.push(&_root);		
 
     string line;
     while(getline(is, line))
@@ -467,7 +469,7 @@ void TC_Config::parse(istream &is)
 			continue;
 		}
 
-		if(line[0] == '#')
+		if(line[0] == '#')	///注释行
 		{
 			continue;
 		}
@@ -480,7 +482,7 @@ void TC_Config::parse(istream &is)
 				throw TC_Config_Exception("[TC_Config::parse]:parse error! line : " + line);
 			}
 
-			if(line[1] == '/')
+			if(line[1] == '/')		///当前域结束
 			{
 				string sName(line.substr(2, (posl - 2)));
 
@@ -501,12 +503,12 @@ void TC_Config::parse(istream &is)
 			{
 				string name(line.substr(1, posl - 1));
 
-                stkTcCnfDomain.push(stkTcCnfDomain.top()->addSubDomain(name));
+                stkTcCnfDomain.push(stkTcCnfDomain.top()->addSubDomain(name));	///新的子域
 			}
 		}
-		else
+		else	///正常配置行
 		{
-            stkTcCnfDomain.top()->setParamValue(line);
+            stkTcCnfDomain.top()->setParamValue(line);	///保存这个域的数据
 		}
 	}
 
