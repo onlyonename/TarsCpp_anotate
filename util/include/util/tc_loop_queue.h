@@ -35,7 +35,7 @@ namespace tars
 /////////////////////////////////////////////////
 
 template<typename T>
-class TC_LoopQueue
+class TC_LoopQueue		///无锁循环队列
 {
 public:
     typedef vector<T> queue_type;
@@ -109,7 +109,7 @@ public:
             if(_iBegin == _iCapacitySub)
                 _iBegin = 0;
             else
-                _iBegin++;
+                _iBegin++;		///这里居然是加1。_iBegin并不是绝对偏移，而只是用在指针上的偏移，和指针配合使用，不会单独用
 
             if(!bEmpty && 1 == size())
                 bEmpty = true;
@@ -219,8 +219,8 @@ private:
     T * _p;
     size_t _iCapacity;
 	size_t _iCapacitySub;
-	size_t _iBegin;
-	size_t _iEnd;
+	size_t _iBegin;			///存数据，以_iBegin为下标
+	size_t _iEnd;			///取数据，从_iEnd为下标
 };
 
 }

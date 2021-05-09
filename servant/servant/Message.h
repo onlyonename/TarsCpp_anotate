@@ -109,7 +109,8 @@ struct ReqMonitor : public TC_ThreadLock
 #define CLR_MSG_TYPE(m, t) do { (m &=~t); } while (0);
 
 
-///请求消息内容非常丰富，包含了很多信息，值得参考
+///请求消息内容非常丰富，包含了很多元信息，真正的请求和响应内容，只是其中一部分。
+///服务间是通过此结构进行的通信
 struct ReqMessage : public TC_HandleBase
 {
     //调用类型
@@ -216,6 +217,7 @@ struct ReqMessage : public TC_HandleBase
     ServantProxy *              proxy;          //调用的ServantProxy对象
     ObjectProxy *               pObjectProxy;   //调用端的proxy对象
 
+	///请求和响应消息体，只是其中很小的一部分
     RequestPacket               request;        //请求消息体
     std::function<void()>       deconstructor;  //析构时调用
     shared_ptr<ResponsePacket>      response;   //响应消息体
