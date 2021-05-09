@@ -898,7 +898,7 @@ void Application::main(const string &config)
     }
 
     //初始化完毕后, 日志再修改为异步
-    LocalRollLogger::getInstance()->sync(false);
+    LocalRollLogger::getInstance()->sync(false);	///异步打日志，提高性能
 }
 
 void Application::parseConfig(const string &config)

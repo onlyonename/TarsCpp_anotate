@@ -108,6 +108,8 @@ struct ReqMonitor : public TC_ThreadLock
 #define SET_MSG_TYPE(m, t) do { (m |= t); } while (0);
 #define CLR_MSG_TYPE(m, t) do { (m &=~t); } while (0);
 
+
+///请求消息内容非常丰富，包含了很多信息，值得参考
 struct ReqMessage : public TC_HandleBase
 {
     //调用类型
