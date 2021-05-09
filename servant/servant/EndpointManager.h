@@ -541,6 +541,8 @@ private:
 /*
  * 对外按类型获取路由的实现类
  */
+
+///不知为何叫thread，并不是线程
 class EndpointThread : public QueryEpBase
 {
 public:
