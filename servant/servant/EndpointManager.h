@@ -256,9 +256,9 @@ private:
     /////////以下是请求主控的策略信息/////////////////
 
     /*
-     * 是否正在向请求主控服务的ip列表信息
+     * 是否正在向主控请求服务的ip列表信息
      */
-    bool                      _requestRegistry;
+    bool                      _requestRegistry; ///是个进行时的字段
 
     /*
      * 请求主控的超时时间(绝对时间)，单位毫秒
@@ -463,7 +463,7 @@ private:
     /*
      * 所有曾经create的结点
      */
-    map<string,AdapterProxy*>     _allProxys;
+    map<string,AdapterProxy*>     _allProxys; ///key为EndpointInfo.cmpDesc()
     vector<AdapterProxy*>         _vAllProxys;
 
     /*

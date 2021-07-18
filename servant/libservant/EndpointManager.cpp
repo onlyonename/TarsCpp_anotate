@@ -355,7 +355,7 @@ void QueryEpBase::setEndpoints(const string & sEndpoints, set<EndpointInfo> & se
 
 void QueryEpBase::refreshReg(GetEndpointType type, const string & sName)
 {
-    if(_direct)
+    if(_direct) ///直连服务,不用查主控
     {
         return;
     }
@@ -368,7 +368,6 @@ void QueryEpBase::refreshReg(GetEndpointType type, const string & sName)
     }
 
     //如果是间接连接，通过registry定时查询服务列表
-    //正在请求状态 而且请求超时了
     //非请求状态 到了下一个刷新时间了
     if( (!_requestRegistry) && (_refreshTime <= iNow))
     {
